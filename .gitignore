@@ -1,0 +1,7 @@
+node_modules/
+dist/
+.env
+.allium/
+*.log
+.DS_Store
+Thumbs.db

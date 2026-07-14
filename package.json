@@ -1,0 +1,50 @@
+{
+  "name": "allium-ai",
+  "version": "0.1.0",
+  "description": "Allium AI: a local terminal personal AI assistant with pluggable model and search providers.",
+  "type": "module",
+  "bin": {
+    "allium": "./dist/cli.js"
+  },
+  "files": [
+    "dist",
+    "python",
+    "swift",
+    "README.md",
+    "docs"
+  ],
+  "scripts": {
+    "dev": "tsx src/cli.tsx",
+    "setup": "tsx src/cli.tsx setup",
+    "build": "tsc -p tsconfig.json",
+    "start": "node dist/cli.js",
+    "typecheck": "tsc -p tsconfig.json --noEmit"
+  },
+  "keywords": [
+    "ai",
+    "terminal",
+    "assistant",
+    "cli",
+    "tui",
+    "agents"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "@inquirer/prompts": "^7.10.1",
+    "chalk": "^5.6.2",
+    "commander": "^14.0.2",
+    "gradient-string": "^3.0.0",
+    "ink": "^6.5.1",
+    "ink-text-input": "^6.0.0",
+    "react": "^19.2.3"
+  },
+  "devDependencies": {
+    "@types/node": "^24.10.1",
+    "@types/react": "^19.2.7",
+    "tsx": "^4.21.0",
+    "typescript": "^5.9.3"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
