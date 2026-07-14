@@ -39,6 +39,20 @@ export function App({ initialConfig }: { initialConfig: AlliumConfig }) {
       exit();
     }
 
+    if (!input && key.leftArrow) {
+      const next = { ...config, mode: "plan" as const };
+      setConfig(next);
+      saveConfig(next);
+      return;
+    }
+
+    if (!input && key.rightArrow) {
+      const next = { ...config, mode: "build" as const };
+      setConfig(next);
+      saveConfig(next);
+      return;
+    }
+
     if (!input.startsWith("/")) {
       return;
     }
