@@ -4,6 +4,9 @@ export const commandSkills: CommandSkill[] = [
   { name: "/plan", category: "Mode", description: "Switch to green planning mode for architecture, tasks, and risk checks." },
   { name: "/build", category: "Mode", description: "Switch to blue build mode for implementation and command execution." },
   { name: "/setup", category: "Config", description: "Run the Allium setup wizard." },
+  { name: "/agent", category: "Agents", description: "Switch agents, run multiple agents, or create a new agent." },
+  { name: "/agent stop", category: "Agents", description: "Stop a running agent with /agent stop NAME." },
+  { name: "/apps", category: "Apps", description: "Show connected app MCPs." },
   { name: "/providers", category: "Config", description: "Show model providers and configured status." },
   { name: "/models", category: "Config", description: "Show or refresh models for the active provider." },
   { name: "/search-provider", category: "Config", description: "Switch the internet search provider." },
@@ -44,6 +47,12 @@ export const commandSkills: CommandSkill[] = [
   { name: "/explain", category: "Code", description: "Explain selected code or output." },
   { name: "/refactor", category: "Code", description: "Refactor while preserving behavior." },
   { name: "/docs", category: "Docs", description: "Generate or update documentation." },
+  { name: "/music-prompt", category: "Music", description: "Draft a music generation prompt for ElevenLabs." },
+  { name: "/music-compose", category: "Music", description: "Generate a new music track with ElevenLabs." },
+  { name: "/music-remix", category: "Music", description: "Create a remix variation from a prompt or track idea." },
+  { name: "/music-loop", category: "Music", description: "Generate a seamless loop for games, apps, or videos." },
+  { name: "/music-stems", category: "Music", description: "Plan or request stems for vocals, drums, bass, and melody." },
+  { name: "/music-voice", category: "Music", description: "Create a vocal or spoken musical hook with ElevenLabs." },
   { name: "/help", category: "Help", description: "Show command help." }
 ];
 

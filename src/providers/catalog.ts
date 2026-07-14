@@ -1,4 +1,4 @@
-import type { ModelProvider, SearchProvider, ThirdPartyAccount } from "../types.js";
+import type { AppMcpProvider, ModelProvider, SearchProvider, ThirdPartyAccount } from "../types.js";
 
 export const modelProviders: ModelProvider[] = [
   {
@@ -236,10 +236,27 @@ export const searchProviders: SearchProvider[] = [
 ];
 
 export const thirdPartyAccounts: ThirdPartyAccount[] = [
-  { id: "anthropic-cli", label: "Claude / Anthropic CLI", command: "claude", notes: "Uses your installed Claude CLI login." },
-  { id: "gemini-cli", label: "Google Gemini CLI", command: "gemini", notes: "Uses your installed Gemini CLI login." },
-  { id: "openai-cli", label: "OpenAI CLI", command: "openai", notes: "Uses your installed OpenAI CLI configuration." },
+  { id: "anthropic-cli", label: "Claude / Anthropic CLI", command: "claude", envKey: "ANTHROPIC_API_KEY", notes: "Uses your installed Claude CLI login or Anthropic API key." },
+  { id: "gemini-cli", label: "Google Gemini CLI", command: "gemini", envKey: "GEMINI_API_KEY", notes: "Uses your installed Gemini CLI login or Gemini API key." },
+  { id: "openai-cli", label: "OpenAI CLI", command: "openai", envKey: "OPENAI_API_KEY", notes: "Uses your installed OpenAI CLI configuration or OpenAI API key." },
+  { id: "grok-account", label: "Grok / xAI Account", command: "xai", envKey: "XAI_API_KEY", notes: "Connects a Grok/xAI account through an API key." },
+  { id: "elevenlabs", label: "ElevenLabs", command: "elevenlabs", envKey: "ELEVENLABS_API_KEY", notes: "Enables voice and music generation skills." },
   { id: "opencode-cli", label: "OpenCode CLI", command: "opencode", notes: "Uses your installed OpenCode account." }
+];
+
+export const appMcpProviders: AppMcpProvider[] = [
+  { id: "google-workspace", label: "Google Workspace", envKey: "GOOGLE_WORKSPACE_API_KEY", notes: "Gmail, Drive, Docs, Sheets, Calendar, and Workspace automation." },
+  { id: "figma", label: "Figma", envKey: "FIGMA_API_KEY", notes: "Design files, comments, components, and handoff context." },
+  { id: "canva", label: "Canva", envKey: "CANVA_API_KEY", notes: "Design creation and asset workflows." },
+  { id: "notion", label: "Notion", envKey: "NOTION_API_KEY", notes: "Pages, databases, docs, and workspace knowledge." },
+  { id: "slack", label: "Slack", envKey: "SLACK_BOT_TOKEN", notes: "Team messages and channels." },
+  { id: "discord", label: "Discord", envKey: "DISCORD_BOT_TOKEN", notes: "Discord server messaging and community workflows." },
+  { id: "github", label: "GitHub", envKey: "GITHUB_TOKEN", notes: "Repositories, issues, pull requests, and releases." },
+  { id: "linear", label: "Linear", envKey: "LINEAR_API_KEY", notes: "Issues, projects, cycles, and roadmaps." },
+  { id: "jira", label: "Jira", envKey: "JIRA_API_TOKEN", notes: "Tickets, projects, and engineering workflows." },
+  { id: "airtable", label: "Airtable", envKey: "AIRTABLE_API_KEY", notes: "Bases, records, and lightweight databases." },
+  { id: "supabase", label: "Supabase", envKey: "SUPABASE_ACCESS_TOKEN", notes: "Projects, databases, edge functions, and storage." },
+  { id: "zapier", label: "Zapier", envKey: "ZAPIER_API_KEY", notes: "Connected automation actions across many apps." }
 ];
 
 export function getModelProvider(id: string): ModelProvider | undefined {

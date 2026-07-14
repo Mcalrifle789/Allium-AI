@@ -7,7 +7,7 @@ import { App } from "./ui/App.js";
 import { loadConfig } from "./config.js";
 import { runSetup } from "./setup.js";
 import { commandSkills } from "./commands.js";
-import { modelProviders, searchProviders } from "./providers/catalog.js";
+import { appMcpProviders, modelProviders, searchProviders } from "./providers/catalog.js";
 
 const program = new Command();
 
@@ -46,6 +46,16 @@ program
   .action(() => {
     for (const command of commandSkills) {
       console.log(`${command.name.padEnd(18)} ${command.category.padEnd(9)} ${command.description}`);
+    }
+  });
+
+program
+  .command("apps")
+  .description("List supported app MCP providers")
+  .action(() => {
+    console.log(chalk.magentaBright("App MCP providers"));
+    for (const app of appMcpProviders) {
+      console.log(`- ${app.id}: ${app.label} (${app.envKey})`);
     }
   });
 

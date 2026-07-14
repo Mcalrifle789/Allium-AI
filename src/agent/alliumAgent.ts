@@ -2,6 +2,7 @@ import type { AlliumConfig, ChatMessage } from "../types.js";
 import { getModelProvider, getSearchProvider } from "../providers/catalog.js";
 import { sendChat } from "./modelClient.js";
 import { searchWeb } from "./searchClient.js";
+import { answerMusicSkill } from "./musicSkills.js";
 
 export function systemPrompt(config: AlliumConfig): string {
   return [
@@ -19,6 +20,11 @@ export async function answerUser(
   history: ChatMessage[],
   input: string
 ): Promise<string> {
+  const musicAnswer = answerMusicSkill(config, input);
+  if (musicAnswer) {
+    return musicAnswer;
+  }
+
   if (input.startsWith("/search ")) {
     const provider = getSearchProvider(config.searchProviderId);
     if (!provider) {

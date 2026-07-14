@@ -37,10 +37,13 @@ allium setup
 The setup wizard asks for:
 
 - Model API provider
+- API key immediately after choosing a keyed model provider
 - Model name
 - Search provider
+- Search provider API key when required
+- Apps: app MCPs such as Google Workspace, Figma, Canva, Notion, Slack, Discord, GitHub, Linear, Jira, Airtable, Supabase, and Zapier
 - API keys when the provider requires one
-- Third-party CLI accounts such as Claude/Anthropic CLI, Gemini CLI, OpenAI CLI, and OpenCode
+- Accounts such as Claude/Anthropic, Gemini, OpenAI, Grok/xAI, ElevenLabs, and OpenCode
 - Desktop-control preference
 
 API keys are stored in your user profile at:
@@ -57,7 +60,43 @@ You can also use environment variables such as `OPENROUTER_API_KEY`, `OPENAI_API
 allium
 ```
 
-Type `/` in the chat box to open the command and skill list. Use `/plan` for planning mode and `/build` for build mode.
+Type `/` in the chat box to open the command and skill list. Use Up/Down or PageUp/PageDown to scroll. The command under the cursor turns white. Use `/plan` for planning mode and `/build` for build mode.
+
+## Agents
+
+Open the agent panel:
+
+```powershell
+/agent
+```
+
+Create, switch, or run agents:
+
+```powershell
+/agent create Research
+/agent switch Research
+/agent run Builder
+/agent stop Builder
+```
+
+Created agent files are stored in:
+
+```text
+agents/<agent-id>/
+```
+
+## ElevenLabs Music
+
+Connect ElevenLabs in `allium setup`, then use:
+
+```text
+/music-prompt
+/music-compose
+/music-remix
+/music-loop
+/music-stems
+/music-voice
+```
 
 ## Desktop Control
 

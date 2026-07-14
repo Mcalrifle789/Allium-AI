@@ -13,6 +13,17 @@ export const defaultConfig: AlliumConfig = {
   mode: "plan",
   apiKeys: {},
   thirdPartyAccounts: [],
+  connectedApps: [],
+  activeAgentId: "allium-main",
+  runningAgentIds: ["allium-main"],
+  agents: [
+    {
+      id: "allium-main",
+      name: "Allium Main",
+      description: "Default local Allium assistant.",
+      createdAt: "built-in"
+    }
+  ],
   desktopControl: {
     enabled: false,
     requireConfirmation: true
@@ -30,6 +41,10 @@ export function loadConfig(): AlliumConfig {
     ...parsed,
     apiKeys: parsed.apiKeys ?? {},
     thirdPartyAccounts: parsed.thirdPartyAccounts ?? [],
+    connectedApps: parsed.connectedApps ?? [],
+    activeAgentId: parsed.activeAgentId ?? defaultConfig.activeAgentId,
+    runningAgentIds: parsed.runningAgentIds ?? defaultConfig.runningAgentIds,
+    agents: parsed.agents ?? defaultConfig.agents,
     desktopControl: {
       ...defaultConfig.desktopControl,
       ...(parsed.desktopControl ?? {})

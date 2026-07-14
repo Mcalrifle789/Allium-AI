@@ -40,6 +40,21 @@ export interface ThirdPartyAccount {
   label: string;
   command: string;
   notes: string;
+  envKey?: string;
+}
+
+export interface AppMcpProvider {
+  id: string;
+  label: string;
+  envKey: string;
+  notes: string;
+}
+
+export interface AlliumAgent {
+  id: string;
+  name: string;
+  description: string;
+  createdAt: string;
 }
 
 export interface AlliumConfig {
@@ -49,6 +64,10 @@ export interface AlliumConfig {
   mode: Mode;
   apiKeys: Record<string, string>;
   thirdPartyAccounts: string[];
+  connectedApps: string[];
+  activeAgentId: string;
+  runningAgentIds: string[];
+  agents: AlliumAgent[];
   desktopControl: {
     enabled: boolean;
     requireConfirmation: boolean;

@@ -9,9 +9,13 @@ The app is designed around the terminal look in the included Allium mockup: dark
 - TypeScript terminal UI powered by Ink
 - `allium setup` configuration wizard
 - Green plan mode and blue build mode
-- Slash command popup with 44 commands/skills
+- Scrollable slash command popup with highlighted command selection
+- `/agent` panel for switching agents, running multiple agents, and creating new agents under `agents/`
 - Model providers: OpenRouter, OpenAI, Anthropic, Google Gemini, xAI Grok, Mistral, Perplexity, Together, Fireworks, Groq, DeepSeek, Cohere, Cerebras, Replicate, Hugging Face, Azure OpenAI, AWS Bedrock, Ollama, LM Studio, OpenCode, and Kilo
 - Search providers: DuckDuckGo, Parallel, Parallel Free, Perplexity, Gemini Grounding, Google Custom Search, Brave, Tavily, SerpAPI, Exa, SearXNG, Bing, Kagi, and You.com
+- App MCP providers: Google Workspace, Figma, Canva, Notion, Slack, Discord, GitHub, Linear, Jira, Airtable, Supabase, and Zapier
+- Account connections: Claude/Anthropic, OpenAI, Gemini, Grok/xAI, OpenCode, and ElevenLabs
+- Six ElevenLabs music skills: prompt, compose, remix, loop, stems, and voice
 - Python desktop bridge for Windows/Linux
 - Swift desktop bridge source for macOS
 
@@ -38,9 +42,21 @@ npm run typecheck
 npm run build
 ```
 
-## Commands
+## Commands And Agents
 
-Type `/` inside Allium to open the command palette. The app currently includes 44 commands covering planning, setup, providers, web search, desktop control, files, code, git, docs, and help.
+Type `/` inside Allium to open the command palette. Use Up/Down or PageUp/PageDown to scroll. The selected command turns white.
+
+Agent commands:
+
+```text
+/agent
+/agent switch NAME
+/agent run NAME
+/agent create NAME
+/agent stop NAME
+```
+
+Created agents are stored in the local `agents/` folder.
 
 ## Privacy
 

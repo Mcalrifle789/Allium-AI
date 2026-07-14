@@ -1,7 +1,7 @@
 import { checkbox, confirm, input, password, select } from "@inquirer/prompts";
 import chalk from "chalk";
 import { defaultConfig, loadConfig, saveConfig, configPath } from "./config.js";
-import { modelProviders, searchProviders, thirdPartyAccounts } from "./providers/catalog.js";
+import { appMcpProviders, modelProviders, searchProviders, thirdPartyAccounts } from "./providers/catalog.js";
 import type { AlliumConfig } from "./types.js";
 
 export async function runSetup(): Promise<AlliumConfig> {
@@ -19,6 +19,9 @@ export async function runSetup(): Promise<AlliumConfig> {
   });
 
   const modelProvider = modelProviders.find((provider) => provider.id === modelProviderId) ?? modelProviders[0]!;
+  const apiKeys = { ...current.apiKeys };
+  await promptForKey(apiKeys, modelProvider.envKey, modelProvider.keyLabel ?? modelProvider.label, modelProvider.requiresKey);
+
   const model = await select({
     message: `Which ${modelProvider.label} model should Allium use?`,
     choices: modelProvider.models.map((candidate) => ({ name: candidate, value: candidate })),
@@ -34,9 +37,11 @@ export async function runSetup(): Promise<AlliumConfig> {
     })),
     default: current.searchProviderId
   });
+  const searchProvider = searchProviders.find((provider) => provider.id === searchProviderId);
+  await promptForKey(apiKeys, searchProvider?.envKey, searchProvider?.label, searchProvider?.requiresKey ?? false);
 
   const selectedThirdPartyAccounts = await checkbox({
-    message: "Connect any third-party CLI accounts?",
+    message: "Connect accounts?",
     choices: thirdPartyAccounts.map((account) => ({
       name: account.label,
       value: account.id,
@@ -45,30 +50,24 @@ export async function runSetup(): Promise<AlliumConfig> {
     }))
   });
 
-  const apiKeys = { ...current.apiKeys };
-  for (const provider of [
-    modelProvider,
-    searchProviders.find((provider) => provider.id === searchProviderId)
-  ]) {
-    if (!provider?.requiresKey || !provider.envKey) {
-      continue;
-    }
+  for (const accountId of selectedThirdPartyAccounts) {
+    const account = thirdPartyAccounts.find((candidate) => candidate.id === accountId);
+    await promptForKey(apiKeys, account?.envKey, account?.label, Boolean(account?.envKey));
+  }
 
-    const existing = process.env[provider.envKey] || apiKeys[provider.envKey];
-    const shouldEnter = !existing || await confirm({
-      message: `${provider.label} already has a key configured. Replace it?`,
-      default: false
-    });
+  const selectedApps = await checkbox({
+    message: "Apps: connect app MCPs?",
+    choices: appMcpProviders.map((app) => ({
+      name: app.label,
+      value: app.id,
+      checked: current.connectedApps.includes(app.id),
+      description: app.notes
+    }))
+  });
 
-    if (shouldEnter) {
-      const label = "keyLabel" in provider ? provider.keyLabel : provider.envKey;
-      const value = await password({
-        message: `Enter ${label ?? provider.envKey}`,
-        mask: "*",
-        validate: (candidate) => candidate.trim().length > 0 || "API key is required."
-      });
-      apiKeys[provider.envKey] = value.trim();
-    }
+  for (const appId of selectedApps) {
+    const app = appMcpProviders.find((candidate) => candidate.id === appId);
+    await promptForKey(apiKeys, app?.envKey, app?.label, Boolean(app?.envKey));
   }
 
   const desktopEnabled = await confirm({
@@ -96,6 +95,7 @@ export async function runSetup(): Promise<AlliumConfig> {
     searchProviderId,
     apiKeys,
     thirdPartyAccounts: selectedThirdPartyAccounts,
+    connectedApps: selectedApps,
     desktopControl: {
       enabled: desktopEnabled,
       requireConfirmation
@@ -105,4 +105,32 @@ export async function runSetup(): Promise<AlliumConfig> {
   saveConfig(config);
   console.log(chalk.green(`\nAllium config saved to ${configPath}\n`));
   return config;
+}
+
+async function promptForKey(
+  apiKeys: Record<string, string>,
+  envKey: string | undefined,
+  label: string | undefined,
+  required: boolean
+): Promise<void> {
+  if (!required || !envKey) {
+    return;
+  }
+
+  const existing = process.env[envKey] || apiKeys[envKey];
+  const shouldEnter = !existing || await confirm({
+    message: `${label ?? envKey} already has a key configured. Replace it?`,
+    default: false
+  });
+
+  if (!shouldEnter) {
+    return;
+  }
+
+  const value = await password({
+    message: `Enter ${label ?? envKey} key`,
+    mask: "*",
+    validate: (candidate) => candidate.trim().length > 0 || "API key is required."
+  });
+  apiKeys[envKey] = value.trim();
 }
